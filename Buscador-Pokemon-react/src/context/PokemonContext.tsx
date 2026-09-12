@@ -29,7 +29,7 @@ interface PokemonContextType {
     mochillaActual: PokemonTerjeta[];
     seleccionarEntrenador: (usuario: Usuario) => void;
     registrarEntrenador: (usuario: Usuario) => void;
-    guardarMochila: (pokemon: PokemonTerjeta) => void;
+    guardarPokemonMochila: (pokemon: PokemonTerjeta) => void;
     actualizarFavorito: (pokemonId: number) => void;
     eliminarPokemon: (pokemonId: number) => void;
 
@@ -75,9 +75,55 @@ export const PokemonProvider : React.FC<{ children: ReactNode }> = ({children}) 
         seleccionarEntrenador(nuevoUsuario);
     }
 
-    const 
+    const guardarPokemonMochila = (pokemon: PokemonTerjeta) => {
+        if(!entrenadoresActivo) return;
+        const actualizada = [ ...mochillaActual, {...pokemon, esFavorito: false} ];
+        setMochilaActual(actualizada)
+        localStorage.setItem(`mochilla_${entrenadoresActivo.id}`, JSON.stringify(actualizada))
+
+    }
 
 
+    const actualizarFavorito = (pokemonId: number) => {
+        if(!entrenadoresActivo) return;
+        const actualizada = mochillaActual.map(p => p.id === pokemonId ? {...p, esFavorito: !p.esFavorito} : p);
+        setMochilaActual(actualizada);
+        localStorage.setItem(`mochilla_${entrenadoresActivo.id}`, JSON.stringify(actualizada))
+        
+    }
+
+    const eliminarPokemon = (pokemonId: number) => {
+        if(!entrenadoresActivo) return;
+        const filtrado = mochillaActual.filter(p => p.id !== pokemonId );
+        setMochilaActual(filtrado);
+        localStorage.setItem(`mochilla_${entrenadoresActivo.id}`, JSON.stringify(filtrado))
+    };
+
+    return (
+        <PokemonContext.Provider value={{
+            entrenadores,
+            mochillaActual,
+            entrenadorActivo, 
+            seleccionarEntrenador, 
+            registrarEntrenador, 
+            guardarPokemonMochila, 
+            actualizarFavorito, 
+            eliminarPokemon 
+                
+           
+        }} >{children}
+        </PokemonContext.Provider>
+           
+      
+             
+            
+    );
+};
+
+export const usePokemon = () => {
+    const context = useContext(PokemonContext);
+    if(!context) throw new Error('usePokemon debe usarse en un Provider Imbecil'),
+    return context;
 }
 
 
