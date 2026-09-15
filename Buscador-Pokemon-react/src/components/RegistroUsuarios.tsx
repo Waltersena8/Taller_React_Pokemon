@@ -16,7 +16,7 @@ export const RegistroUsuario: React.FC = ( ) => {
     const [ celular, setCelular ] = useState('');
     const [ fechaNacimiento, setFechaNacimiento] = useState('');
     const [ correo, setCorreo] = useState('');
-    const [ datosPersonales, setDatosPersonales] = useState('false');
+    const [ datosPersonales, setDatosPersonales] = useState(false);
 
     const eventoSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -34,7 +34,7 @@ export const RegistroUsuario: React.FC = ( ) => {
             celular: celular,
             correo,
             recidencia: { pais: pais, ciudad: ciudad},
-            check: datosPersonales,
+            datosPersonales: datosPersonales,
             fehcaRegistro: new Date().toLocaleDateString()
         };
 

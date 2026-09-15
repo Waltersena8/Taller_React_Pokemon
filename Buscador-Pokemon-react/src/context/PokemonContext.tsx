@@ -26,6 +26,7 @@ export interface PokemonTerjeta  {
 }
 
 interface PokemonContextType {
+    buscarapi: PokemonTerjeta[];
     entrenadores: Usuario[];
     entrenadorActivo: Usuario | null;
     mochillaActual: PokemonTerjeta[];
@@ -57,6 +58,7 @@ export const PokemonProvider : React.FC<{ children: ReactNode }> = ({children}) 
         }
 
     }, [] );
+
     
     const cargarMochilaEntrenador = (usuarioId: number ) => {
         const data = localStorage.getItem(`mochila_${usuarioId}`);
@@ -105,7 +107,7 @@ export const PokemonProvider : React.FC<{ children: ReactNode }> = ({children}) 
         <PokemonContext.Provider value={{
             entrenadores,
             mochillaActual,
-            entrenadorActivo, 
+            entrenadoresActivo, 
             seleccionarEntrenador, 
             registrarEntrenador, 
             guardarPokemonMochila, 
