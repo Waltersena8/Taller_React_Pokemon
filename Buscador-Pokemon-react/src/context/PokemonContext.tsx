@@ -7,11 +7,13 @@ export interface Usuario {
     documento: {
         tipo: string, numero: string
     };
+    celular: number;
+    recidencia: {pais: string, ciudad: string}
     fechaNacimiento: string;
     correo: string;
     datosPersonales: boolean;
     fehcaRegistro: string;
-
+    
 };
 
 export interface PokemonTerjeta  {
@@ -122,7 +124,8 @@ export const PokemonProvider : React.FC<{ children: ReactNode }> = ({children}) 
 
 export const usePokemon = () => {
     const context = useContext(PokemonContext);
-    if(!context) throw new Error('usePokemon debe usarse en un Provider Imbecil'),
+    if(!context) {throw new Error('usePokemon debe usarse en un Provider Imbecil')
+    }
     return context;
 }
 
