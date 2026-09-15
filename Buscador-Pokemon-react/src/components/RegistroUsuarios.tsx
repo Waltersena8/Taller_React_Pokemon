@@ -31,7 +31,7 @@ export const RegistroUsuario: React.FC = ( ) => {
             nombreCompleto: `${nombre} ${apellido}`,
             documento: {tipo: tipoDoc, numero: dni},
             fechaNacimiento: fechaNacimiento,
-            celu: celular,
+            celular: celular,
             correo,
             recidencia: { pais: pais, ciudad: ciudad},
             check: datosPersonales,

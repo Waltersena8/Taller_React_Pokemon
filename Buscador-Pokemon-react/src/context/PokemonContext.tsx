@@ -7,7 +7,7 @@ export interface Usuario {
     documento: {
         tipo: string, numero: string
     };
-    celular: number;
+    celular: string;
     recidencia: {pais: string, ciudad: string}
     fechaNacimiento: string;
     correo: string;
