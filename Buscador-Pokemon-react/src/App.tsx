@@ -1,6 +1,7 @@
 import {BrowserRouter, Routes, Route, NavLink, Navigate} from 'react-router-dom'
 import { PokemonProvider } from './context/PokemonContext';
 import { RegistroUsuario } from './components/RegistroUsuarios'
+import { BuscadorPokemon } from './components/BuscadorPokemon'
  
 function App(){
   return(
@@ -21,7 +22,7 @@ function App(){
           <Routes>
             <Route path='/' element={<Navigate to ="registro" replace/>}></Route>
             <Route path='/registro' element={<RegistroUsuario/>}></Route>
-            <Route path='/buscador' ></Route>
+            <Route path='/buscador' element={<BuscadorPokemon/>}></Route>
             <Route path='/inventario' ></Route>
           </Routes>
         </main>

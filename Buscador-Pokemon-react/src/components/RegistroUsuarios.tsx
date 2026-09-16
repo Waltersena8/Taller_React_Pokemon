@@ -150,8 +150,26 @@ export const RegistroUsuario: React.FC = ( ) => {
                     </div>     
                 </form>
             </div>
+
+            {entrenadores.length > 0 && (
+                <div>
+                    <h3>Cambiar Entrenador</h3>
+                    <div>
+                        {entrenadores.map((user) => (
+                            <button key={user.id} type="button" onClick={() => seleccionarEntrenador(user)} 
+                            style={{
+                                backgroundColor: entrenadorActivo?.id === user.id ? "#f37dd9" : "#fffefe",
+                                color: entrenadorActivo?.id === user.id ? 'white' : 'black',
+                                padding: '6px 12px',
+                            }}> {user.nombreCompleto}</button>
+                        ))}
+                    </div>
+
+                </div>
+            )
+            };  
         </div>
         
-    )
+    );
 
-}
+};
