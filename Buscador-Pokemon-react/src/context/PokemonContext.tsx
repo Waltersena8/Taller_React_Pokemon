@@ -18,7 +18,7 @@ export interface Usuario {
 
 export interface PokemonTerjeta  {
     id: number;
-    nombre: string;
+    name: string;
     image: string;
     type: string;
     baseExperience: string;
