@@ -41,7 +41,7 @@ interface PokemonContextType {
 const PokemonContext = createContext<PokemonContextType | undefined>(undefined);
 export const PokemonProvider : React.FC<{ children: ReactNode }> = ({children}) => {
     const [entrenadores,setEntrenadores] = useState<Usuario[]>([]);
-    const [entrenadoresActivo,setEntrenadorActivo] = useState<Usuario[] | null> ( null );
+    const [entrenadorActivo,setEntrenadorActivo] = useState<Usuario[] | null> ( null );
     const [mochillaActual,setMochilaActual] = useState<PokemonTerjeta[] | null> ( null );
 
     useEffect(() =>{
@@ -50,7 +50,7 @@ export const PokemonProvider : React.FC<{ children: ReactNode }> = ({children}) 
             const lista: Usuario[]= JSON.parse(data);
             setEntrenadores(lista);
 
-            const idActivo = localStorage.getItem('ENTRENADOR_ACTIVO_ID');
+            const idActivo = localStorage.getItem('entrenador_activo_id');
             if(idActivo){
                 const encontrado = lista.find(u => u.id.toString() === idActivo);
                 if (encontrado) seleccionarEntrenador(encontrado);       
@@ -80,34 +80,34 @@ export const PokemonProvider : React.FC<{ children: ReactNode }> = ({children}) 
     }
 
     const guardarPokemonMochila = (pokemon: PokemonTerjeta) => {
-        if(!entrenadoresActivo) return;
+        if(!entrenadorActivo) return;
         const actualizada = [ ...mochillaActual, {...pokemon, esFavorito: false} ];
         setMochilaActual(actualizada)
-        localStorage.setItem(`mochilla_${entrenadoresActivo.id}`, JSON.stringify(actualizada))
+        localStorage.setItem(`mochilla_${entrenadorActivo.id}`, JSON.stringify(actualizada))
 
     }
 
 
     const actualizarFavorito = (pokemonId: number) => {
-        if(!entrenadoresActivo) return;
+        if(!entrenadorActivo) return;
         const actualizada = mochillaActual.map(p => p.id === pokemonId ? {...p, esFavorito: !p.esFavorito} : p);
         setMochilaActual(actualizada);
-        localStorage.setItem(`mochilla_${entrenadoresActivo.id}`, JSON.stringify(actualizada))
+        localStorage.setItem(`mochilla_${entrenadorActivo.id}`, JSON.stringify(actualizada))
         
     }
 
     const eliminarPokemon = (pokemonId: number) => {
-        if(!entrenadoresActivo) return;
+        if(!entrenadorActivo) return;
         const filtrado = mochillaActual.filter(p => p.id !== pokemonId );
         setMochilaActual(filtrado);
-        localStorage.setItem(`mochilla_${entrenadoresActivo.id}`, JSON.stringify(filtrado))
+        localStorage.setItem(`mochilla_${entrenadorActivo.id}`, JSON.stringify(filtrado))
     };
 
     return (
         <PokemonContext.Provider value={{
             entrenadores,
             mochillaActual,
-            entrenadoresActivo, 
+            entrenadorActivo, 
             seleccionarEntrenador, 
             registrarEntrenador, 
             guardarPokemonMochila, 

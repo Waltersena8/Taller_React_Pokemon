@@ -35,7 +35,7 @@ export const InventarioAvtivo: React.FC = ( ) => {
 
                         <img src={poke.image} />
                         <h4>{poke.name}</h4>
-                        <p> {poke.typr}</p>
+                        <p> {poke.type}</p>
 
                         <div className="panel-botones">
                             <button className={`btn-fav ${poke.esFavorito ? 'fav-activo' : ''}`} onClick={() => actualizarFavorito(poke.id)}>

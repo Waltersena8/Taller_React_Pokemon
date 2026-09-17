@@ -25,7 +25,7 @@ function App(){
             <Route path='/' element={<Navigate to ="registro" replace/>}></Route>
             <Route path='/registro' element={<RegistroUsuario/>}></Route>
             <Route path='/buscador' element={<BuscadorPokemon/>}></Route>
-            <Route path='/buscador' element={<InventarioAvtivo/>}></Route>
+            <Route path='/inventario' element={<InventarioAvtivo/>}></Route>
 
           </Routes>
         </main>
