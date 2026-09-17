@@ -39,7 +39,7 @@ export const InventarioAvtivo: React.FC = ( ) => {
 
                         <div className="panel-botones">
                             <button className={`btn-fav ${poke.esFavorito ? 'fav-activo' : ''}`} onClick={() => actualizarFavorito(poke.id)}>
-                                    {poke.esFavorito ? '⭐Favorito' : '🌚Chupar'}
+                                    {poke.esFavorito ? '⭐Favorito' : '🌚Liberar'}
                             </button>
 
                             <button type='button'  className="btn-eliminar" onClick={() => eliminarPokemon(poke.id)}>
