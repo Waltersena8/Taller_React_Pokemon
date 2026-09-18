@@ -1,53 +1,55 @@
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --fondo: #151823;      /* noche */
+  --tarjeta: #1f2430;
+  --texto: #f4f6fb;
+  --texto-suave: #9aa3b2;
+  --borde: #2c3342;
+  --marca: #ef5350;      /* tu rojo actual */
+  --dorado: #fbc02d;     /* favoritos */
+}
+body { background: var(--fondo); color: var(--texto); }
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+.navbar {
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  border-radius: 0 0 18px 18px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
+.tarjeta-item {
+  background: var(--tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+  padding: 16px 12px;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.tarjeta-item:hover { transform: translateY(-5px); box-shadow: 0 12px 26px rgba(0,0,0,.45); }
+.tarjeta-item img { width: 96px; image-rendering: pixelated; }
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+.tarjeta-favorita {
+  background: #2a2314;
+  border: 2px solid var(--dorado);
+  box-shadow: 0 0 16px rgba(251,192,45,.35);
+}
+
+.tipo-chip {
+  display: inline-block; padding: 3px 12px; border-radius: 999px;
+  color: #fff; font-size: .72rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .6px;
+}
+
+.panel-botones button {
+  flex: 1; border: none; border-radius: 10px; padding: 8px;
+  font-weight: 600; cursor: pointer;
+  transition: filter .15s ease, transform .15s ease;
+}
+.panel-botones button:hover { filter: brightness(1.15); transform: scale(1.04); }
+.btn-eliminar { background: #b91c1c; color: #fff; }
+.btn-fav.fav-activo { background: var(--dorado); }
+
+.mochila-vacia {
+  grid-column: 1 / -1;   /* ocupa todo el ancho del grid */
+  padding: 48px 20px; text-align: center;
+  border: 2px dashed var(--borde); border-radius: 16px;
+  color: var(--texto-suave);
 }
 
 #root {

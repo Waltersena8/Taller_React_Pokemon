@@ -84,10 +84,20 @@ export const PokemonProvider : React.FC<{ children: ReactNode }> = ({children}) 
     }
 
     const guardarPokemonMochila = (pokemon: PokemonTerjeta) => {
-        if(!entrenadorActivo) return ;
-        const actualizada = [ ...mochillaActual, {...pokemon, esFavorito: false} ];
-        setMochilaActual(actualizada)
-        localStorage.setItem(`mochilla_${entrenadorActivo.id}`, JSON.stringify(actualizada))
+        if (!entrenadorActivo) return;
+
+    const storagellave = `mochilla_${entrenadorActivo.id}`;
+    const mochilaGuardada = localStorage.getItem(storagellave);
+    if (!mochilaGuardada) {
+        const validacion = [{ ...pokemon, esFavorito: false }];
+        setMochilaActual(validacion);
+        localStorage.setItem(storagellave, JSON.stringify(validacion));
+        
+        return; 
+    }
+    const actualizada = [ ...mochillaActual, { ...pokemon, esFavorito: false } ];
+    setMochilaActual(actualizada);
+    localStorage.setItem(storagellave, JSON.stringify(actualizada));
 
        
 

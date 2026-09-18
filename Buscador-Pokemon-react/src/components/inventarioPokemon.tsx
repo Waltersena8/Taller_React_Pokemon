@@ -20,7 +20,7 @@ export const InventarioAvtivo: React.FC = ( ) => {
 
     return(
 
-    <div className="banner-section">
+    <div className=".banner-section">
         <header>
             <h2>Mochilla de {entrenadorActivo.nombreCompleto}</h2>
         </header>
@@ -49,7 +49,7 @@ export const InventarioAvtivo: React.FC = ( ) => {
                     </div>
                 )
              )) : (
-                <div>
+                <div className=".mochila-vacia">
                     <p>Tu mochila esta vacia actualmente</p>
                     <p>Vaya y captyre pokemones </p>
                 </div>
