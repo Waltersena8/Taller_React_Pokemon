@@ -26,7 +26,6 @@ export interface PokemonTerjeta  {
 }
 
 interface PokemonContextType {
-    buscarapi: PokemonTerjeta[];
     entrenadores: Usuario[];
     entrenadorActivo: Usuario | null;
     mochillaActual: PokemonTerjeta[];
@@ -36,13 +35,14 @@ interface PokemonContextType {
     actualizarFavorito: (pokemonId: number) => void;
     eliminarPokemon: (pokemonId: number) => void;
 
+
 }
 
-const PokemonContext = createContext<PokemonContextType | undefined>(undefined);
+const PokemonContext = createContext<PokemonContextType | undefined> (undefined);
 export const PokemonProvider : React.FC<{ children: ReactNode }> = ({children}) => {
     const [entrenadores,setEntrenadores] = useState<Usuario[]>([]);
-    const [entrenadorActivo,setEntrenadorActivo] = useState<Usuario[] | null> ( null );
-    const [mochillaActual,setMochilaActual] = useState<PokemonTerjeta[] | null> ( null );
+    const [entrenadorActivo,setEntrenadorActivo] = useState<Usuario| null> ( null );
+    const [mochillaActual,setMochilaActual] = useState<PokemonTerjeta[]> ([]);
 
     useEffect(() =>{
         const data = localStorage.getItem('LISTA_ENTRENADORES');
@@ -55,7 +55,11 @@ export const PokemonProvider : React.FC<{ children: ReactNode }> = ({children}) 
                 const encontrado = lista.find(u => u.id.toString() === idActivo);
                 if (encontrado) seleccionarEntrenador(encontrado);       
             }
+
+
+            
         }
+       
 
     }, [] );
 
@@ -80,14 +84,16 @@ export const PokemonProvider : React.FC<{ children: ReactNode }> = ({children}) 
     }
 
     const guardarPokemonMochila = (pokemon: PokemonTerjeta) => {
-        if(!entrenadorActivo) return;
+        if(!entrenadorActivo) return ;
         const actualizada = [ ...mochillaActual, {...pokemon, esFavorito: false} ];
         setMochilaActual(actualizada)
         localStorage.setItem(`mochilla_${entrenadorActivo.id}`, JSON.stringify(actualizada))
 
+       
+
     }
 
-
+   
     const actualizarFavorito = (pokemonId: number) => {
         if(!entrenadorActivo) return;
         const actualizada = mochillaActual.map(p => p.id === pokemonId ? {...p, esFavorito: !p.esFavorito} : p);

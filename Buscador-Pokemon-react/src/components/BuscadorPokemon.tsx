@@ -15,11 +15,13 @@ export const BuscadorPokemon: React.FC = ( ) => {
     const buscarPokemon = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        
+
         const query = busqueda.trim().toLocaleLowerCase();
 
         if(!query) return;
 
-
+       
         setCargando(true);
         setMensajeError(null);
 
@@ -50,6 +52,7 @@ export const BuscadorPokemon: React.FC = ( ) => {
             guardarPokemonMochila(pokemonActual);
             alert(`El pokemon ${pokemonActual.name} es guardado en la mochilla de ${entrenadorActivo?.nombreCompleto}`)
         }
+        
     }
 
 
@@ -63,7 +66,7 @@ export const BuscadorPokemon: React.FC = ( ) => {
                     <input type="text" value={busqueda} onChange={(e) => setBusqueda(e.target.value)} placeholder="Ej: maricon" />
                 </div>
 
-                <button type="submit" disabled={cargando}>
+                <button type="submit" disabled={cargando}  >
                     {cargando ? 'Escaneando...' : 'Buscar'}
                 </button>
             </form>
