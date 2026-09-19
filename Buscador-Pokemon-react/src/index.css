@@ -1,113 +1,488 @@
+/* ============================================================
+   POKÉDEX UI — hoja de estilos principal
+   Pensada para ir en index.css / main.css (la que importas
+   en main.jsx). Funciona sobre HTML "pelado": no necesitas
+   agregar clases para que se vea bien, pero las clases
+   opcionales (.pkmn-card, .is-favorite, etc.) suben el nivel.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Silkscreen:wght@400;700&display=swap');
+
+/* ---------- 1. Tokens ---------- */
 :root {
-  --fondo: #151823;      /* noche */
-  --tarjeta: #1f2430;
-  --texto: #f4f6fb;
-  --texto-suave: #9aa3b2;
-  --borde: #2c3342;
-  --marca: #ef5350;      /* tu rojo actual */
-  --dorado: #fbc02d;     /* favoritos */
-}
-body { background: var(--fondo); color: var(--texto); }
+  /* superficies: azul profundo de pantalla apagada */
+  --bg-deep: #0c0f1a;
+  --bg: #131829;
+  --surface: #1b2236;
+  --surface-hi: #232c45;
+  --line: #2f3a57;
 
-.navbar {
-  background: linear-gradient(135deg, #ef4444, #b91c1c);
-  border-radius: 0 0 18px 18px;
-}
+  /* acentos */
+  --red: #e3350d;        /* rojo pokébola */
+  --red-dark: #a82408;
+  --gold: #ffcb05;       /* amarillo del logo */
+  --gold-soft: #ffe27a;
+  --led: #4fc3f7;        /* luz azul del visor */
+  --ink: #eef2ff;
+  --ink-dim: #93a0c0;
 
-.tarjeta-item {
-  background: var(--tarjeta);
-  border: 1px solid var(--borde);
-  border-radius: 16px;
-  padding: 16px 12px;
-  transition: transform .18s ease, box-shadow .18s ease;
-}
-.tarjeta-item:hover { transform: translateY(-5px); box-shadow: 0 12px 26px rgba(0,0,0,.45); }
-.tarjeta-item img { width: 96px; image-rendering: pixelated; }
+  /* tipos */
+  --t-grass: #4caf50;  --t-fire: #ff7043;   --t-water: #42a5f5;
+  --t-electric: #fdd835; --t-psychic: #ec407a; --t-ice: #4dd0e1;
+  --t-dragon: #7e57c2; --t-dark: #546e7a;   --t-fairy: #f48fb1;
+  --t-normal: #a1887f; --t-fighting: #d84315; --t-flying: #90caf9;
+  --t-poison: #ab47bc; --t-ground: #c0894a; --t-rock: #8d6e63;
+  --t-bug: #9ccc65;    --t-ghost: #7986cb;  --t-steel: #90a4ae;
 
-.tarjeta-favorita {
-  background: #2a2314;
-  border: 2px solid var(--dorado);
-  box-shadow: 0 0 16px rgba(251,192,45,.35);
-}
-
-.tipo-chip {
-  display: inline-block; padding: 3px 12px; border-radius: 999px;
-  color: #fff; font-size: .72rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: .6px;
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 22px;
+  --shadow: 0 18px 40px -22px rgba(0, 0, 0, .9);
 }
 
-.panel-botones button {
-  flex: 1; border: none; border-radius: 10px; padding: 8px;
-  font-weight: 600; cursor: pointer;
-  transition: filter .15s ease, transform .15s ease;
-}
-.panel-botones button:hover { filter: brightness(1.15); transform: scale(1.04); }
-.btn-eliminar { background: #b91c1c; color: #fff; }
-.btn-fav.fav-activo { background: var(--dorado); }
+*, *::before, *::after { box-sizing: border-box; }
 
-.mochila-vacia {
-  grid-column: 1 / -1;   /* ocupa todo el ancho del grid */
-  padding: 48px 20px; text-align: center;
-  border: 2px dashed var(--borde); border-radius: 16px;
-  color: var(--texto-suave);
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
+/* ---------- 2. Base ---------- */
 body {
   margin: 0;
+  min-height: 100vh;
+  font-family: 'Outfit', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink);
+  background:
+    radial-gradient(900px 500px at 50% -180px, rgba(227, 53, 13, .22), transparent 70%),
+    radial-gradient(600px 400px at 90% 110%, rgba(79, 195, 247, .12), transparent 70%),
+    var(--bg-deep);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+/* contenedor: envuelve tu app en <div class="pkmn-shell"> si quieres */
+#root, .pkmn-shell {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 28px 20px 80px;
 }
 
+/* ---------- 3. Título ---------- */
 h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
+  margin: 0 0 6px;
+  font-size: clamp(1.9rem, 5vw, 3.1rem);
+  font-weight: 800;
+  letter-spacing: -.02em;
+  line-height: 1.05;
+  text-align: center;
+  color: var(--gold);
+  text-shadow:
+    0 2px 0 var(--red-dark),
+    0 0 28px rgba(255, 203, 5, .28);
 }
+
 h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
+  margin: 34px 0 18px;
+  font-size: 1.35rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--ink);
 }
 
-code,
-.counter {
-  font-family: var(--mono);
+/* subtítulo tipo "Mochilla de 123 123" */
+h2 + p, .pkmn-sub {
+  margin-top: -10px;
+  text-align: center;
+  color: var(--ink-dim);
+}
+
+/* ---------- 4. Navegación ---------- */
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 22px auto 30px;
+  padding: 8px;
+  width: fit-content;
+  background: linear-gradient(180deg, var(--surface), var(--bg));
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+}
+
+nav a {
+  position: relative;
   display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+  align-items: center;
+  gap: 8px;
+  padding: 9px 20px 9px 16px;
+  border-radius: 999px;
+  color: var(--ink-dim);
+  font-weight: 600;
+  font-size: .95rem;
+  text-decoration: none;
+  transition: color .18s ease, background-color .18s ease, transform .18s ease;
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+/* punto-pokébola antes de cada link */
+nav a::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--red) 0 49%, #f2f4fa 51% 100%);
+  border: 1px solid #0a0d16;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+nav a:hover {
+  color: var(--ink);
+  background: var(--surface-hi);
+}
+
+nav a:hover::before { transform: rotate(180deg) scale(1.15); }
+
+/* clase que pones al link activo: className={isActive ? 'is-active' : ''} */
+nav a.is-active, nav a[aria-current='page'] {
+  color: #12141d;
+  background: linear-gradient(180deg, var(--gold-soft), var(--gold));
+  box-shadow: 0 0 22px rgba(255, 203, 5, .35);
+}
+
+nav a.is-active::before { box-shadow: 0 0 10px rgba(0, 0, 0, .5); }
+
+/* ---------- 5. Formulario ---------- */
+form {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 26px 26px 22px;
+  background: linear-gradient(180deg, var(--surface), var(--bg));
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow);
+}
+
+/* cada fila: envuelve label+input en <div class="field"> para el grid */
+form .field {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+label {
+  color: var(--ink-dim);
+  font-size: .9rem;
+  font-weight: 500;
+}
+
+input[type='text'],
+input[type='date'],
+input[type='email'],
+input[type='tel'],
+input[type='number'],
+input[type='search'],
+select,
+textarea {
+  width: 100%;
+  padding: 11px 14px;
+  font: inherit;
+  font-size: .95rem;
+  color: var(--ink);
+  background: #0e1322;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  outline: none;
+  transition: border-color .16s ease, box-shadow .16s ease, background-color .16s ease;
+}
+
+input::placeholder { color: #5d6a8c; }
+
+input:hover, select:hover { border-color: #3f4d73; }
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--led);
+  background: #111832;
+  box-shadow: 0 0 0 3px rgba(79, 195, 247, .18);
+}
+
+select {
+  appearance: none;
+  padding-right: 38px;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink-dim) 50%),
+                    linear-gradient(135deg, var(--ink-dim) 50%, transparent 50%);
+  background-position: calc(100% - 20px) center, calc(100% - 14px) center;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator { filter: invert(.8); cursor: pointer; }
+
+/* checkbox de términos */
+input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--red);
+  cursor: pointer;
+  vertical-align: -3px;
+}
+
+form a {
+  color: var(--led);
+  text-decoration: none;
+  border-bottom: 1px dashed currentColor;
+}
+form a:hover { color: var(--gold); }
+
+/* ---------- 6. Botones ---------- */
+button {
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  border-radius: 999px;
+  padding: 11px 26px;
+  color: #fff;
+  background: linear-gradient(180deg, #f0522b, var(--red));
+  box-shadow: 0 6px 0 var(--red-dark), 0 12px 24px -12px rgba(227, 53, 13, .8);
+  transition: transform .12s ease, box-shadow .12s ease, filter .18s ease;
+}
+
+button:hover { filter: brightness(1.08); }
+
+button:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 var(--red-dark);
+}
+
+button:disabled {
+  filter: grayscale(1);
+  opacity: .5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* chips de entrenador ("123 123") — className="trainer-chip" */
+.trainer-chip {
+  background: linear-gradient(180deg, #2b3654, #1d2740);
+  box-shadow: 0 5px 0 #0f1526;
+  color: var(--ink);
+  padding: 10px 22px;
+  border: 1px solid var(--line);
+}
+
+.trainer-chip.is-active {
+  background: linear-gradient(180deg, var(--gold-soft), var(--gold));
+  color: #12141d;
+  border-color: var(--gold);
+  box-shadow: 0 5px 0 #a98600, 0 0 26px rgba(255, 203, 5, .4);
+}
+
+/* ---------- 7. Rejilla y tarjetas ---------- */
+.pkmn-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 26px;
+}
+
+.pkmn-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 26px 18px 20px;
+  background:
+    radial-gradient(120px 90px at 50% 20%, rgba(79, 195, 247, .12), transparent 70%),
+    linear-gradient(180deg, var(--surface), var(--bg));
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+/* pokébola de fondo, muy tenue */
+.pkmn-card::after {
+  content: '';
+  position: absolute;
+  right: -46px;
+  bottom: -46px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 12px solid rgba(255, 255, 255, .04);
+  background:
+    linear-gradient(180deg, rgba(227, 53, 13, .08) 0 46%, transparent 46%),
+    radial-gradient(circle at center, rgba(255, 255, 255, .06) 0 14%, transparent 15%);
+  pointer-events: none;
+}
+
+.pkmn-card:hover {
+  transform: translateY(-5px);
+  border-color: #47597f;
+}
+
+.pkmn-card img {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  image-rendering: pixelated;      /* clave para sprites */
+  filter: drop-shadow(0 10px 10px rgba(0, 0, 0, .6));
+  transition: transform .25s ease;
+}
+
+.pkmn-card:hover img { transform: scale(1.12) translateY(-4px); }
+
+/* número "#1 de 1" — className="pkmn-num" */
+.pkmn-num {
+  font-family: 'Silkscreen', monospace;
+  font-size: .7rem;
+  color: var(--ink-dim);
+}
+
+/* nombre */
+.pkmn-name {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  text-transform: capitalize;
+}
+
+/* etiqueta de tipo: className={`type type-${p.type}`} */
+.type {
+  padding: 3px 14px;
+  border-radius: 999px;
+  font-size: .78rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  color: #0c0f1a;
+  background: var(--t-normal);
+}
+.type-grass { background: var(--t-grass); }
+.type-fire { background: var(--t-fire); }
+.type-water { background: var(--t-water); }
+.type-electric { background: var(--t-electric); }
+.type-psychic { background: var(--t-psychic); }
+.type-ice { background: var(--t-ice); }
+.type-dragon { background: var(--t-dragon); color: #fff; }
+.type-dark { background: var(--t-dark); color: #fff; }
+.type-fairy { background: var(--t-fairy); }
+.type-normal { background: var(--t-normal); }
+.type-fighting { background: var(--t-fighting); color: #fff; }
+.type-flying { background: var(--t-flying); }
+.type-poison { background: var(--t-poison); color: #fff; }
+.type-ground { background: var(--t-ground); }
+.type-rock { background: var(--t-rock); color: #fff; }
+.type-bug { background: var(--t-bug); }
+.type-ghost { background: var(--t-ghost); color: #fff; }
+.type-steel { background: var(--t-steel); }
+
+/* acciones de la tarjeta */
+.pkmn-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.pkmn-actions button {
+  padding: 8px 16px;
+  font-size: .85rem;
+}
+
+.btn-fav {
+  background: linear-gradient(180deg, #2b3654, #1d2740);
+  box-shadow: 0 4px 0 #0f1526;
+  border: 1px solid var(--line);
+}
+
+.btn-kill {
+  background: linear-gradient(180deg, #c62828, #8e1c1c);
+  box-shadow: 0 4px 0 #5c0f0f;
+}
+
+/* ---------- 8. Estado favorito ---------- */
+.pkmn-card.is-favorite {
+  border-color: var(--gold);
+  background:
+    radial-gradient(140px 110px at 50% 15%, rgba(255, 203, 5, .18), transparent 70%),
+    linear-gradient(180deg, #2a2413, #1a1710);
+  box-shadow: 0 0 0 1px rgba(255, 203, 5, .35),
+              0 0 34px -6px rgba(255, 203, 5, .45),
+              var(--shadow);
+  animation: shine 2.8s ease-in-out infinite;
+}
+
+.pkmn-card.is-favorite img {
+  filter: drop-shadow(0 0 14px rgba(255, 203, 5, .55));
+}
+
+.pkmn-card.is-favorite .btn-fav {
+  background: linear-gradient(180deg, var(--gold-soft), var(--gold));
+  color: #12141d;
+  border-color: var(--gold);
+  box-shadow: 0 4px 0 #a98600;
+}
+
+@keyframes shine {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(255, 203, 5, .3), 0 0 26px -8px rgba(255, 203, 5, .35), var(--shadow); }
+  50%      { box-shadow: 0 0 0 1px rgba(255, 203, 5, .55), 0 0 44px -4px rgba(255, 203, 5, .6), var(--shadow); }
+}
+
+/* entrada de tarjetas nuevas */
+.pkmn-card.is-new { animation: pop .35s cubic-bezier(.2, 1.4, .5, 1) both; }
+
+@keyframes pop {
+  from { opacity: 0; transform: scale(.85) translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- 9. Buscador y vacíos ---------- */
+.search-bar {
+  display: flex;
+  gap: 10px;
+  max-width: 520px;
+  margin: 0 auto 8px;
+}
+.search-bar input { flex: 1; }
+
+.empty {
+  margin: 48px auto;
+  max-width: 420px;
+  text-align: center;
+  color: var(--ink-dim);
+}
+.empty::before {
+  content: '';
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  border: 7px solid var(--line);
+  background: linear-gradient(180deg, rgba(227, 53, 13, .35) 0 46%, transparent 46%);
+}
+
+/* ---------- 10. Responsive y accesibilidad ---------- */
+@media (max-width: 560px) {
+  form { padding: 20px 16px; }
+  form .field { grid-template-columns: 1fr; gap: 6px; }
+  label { font-size: .85rem; }
+  nav { border-radius: var(--r-md); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
 }

@@ -1,45 +1,130 @@
-body {
-  font-family: system-ui, -apple-system, sans-serif;
-  background-color: #f4f6f8;
-  margin: 0;
-  padding: 0;
+/* ============================================================
+   App.css — tema Pokédex
+   REEMPLAZA tu App.css completo. Mismos nombres de clase que
+   ya usas, así que no tienes que tocar el JSX.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Silkscreen&display=swap');
+
+:root {
+  --bg: #0f1420;
+  --surface: #1b2236;
+  --surface-2: #222b44;
+  --line: #2f3a57;
+  --rojo: #e3350d;
+  --rojo-osc: #a82408;
+  --oro: #ffcb05;
+  --oro-claro: #ffe27a;
+  --oro-osc: #a98600;
+  --led: #4fc3f7;
+  --texto: #eef2ff;
+  --texto-tenue: #93a0c0;
+  --sombra: 0 18px 40px -22px rgba(0, 0, 0, .9);
 }
 
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+  color: var(--texto);
+  background:
+    radial-gradient(900px 500px at 50% -200px, rgba(227, 53, 13, .22), transparent 70%),
+    radial-gradient(600px 400px at 90% 110%, rgba(79, 195, 247, .12), transparent 70%),
+    var(--bg);
+  background-attachment: fixed;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { letter-spacing: -.02em; }
+
+/* ---------- Navbar ---------- */
 .navbar {
-  background-color: #ef5350;
+  background: linear-gradient(180deg, #f0522b, var(--rojo));
   color: white;
-  padding: 1rem 2rem;
+  padding: 1.6rem 2rem 1.3rem;
   text-align: center;
+  border-bottom: 5px solid var(--rojo-osc);
+  box-shadow: 0 14px 34px -20px rgba(227, 53, 13, .9);
+}
+
+.navbar h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 4.5vw, 2.6rem);
+  font-weight: 800;
+  color: var(--oro);
+  text-shadow: 0 2px 0 var(--rojo-osc);
 }
 
 .nav-links {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 15px;
-  margin-top: 10px;
+  gap: 12px;
+  margin-top: 16px;
 }
 
 .nav-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   color: white;
   text-decoration: none;
-  font-weight: bold;
-  padding: 8px 16px;
+  font-weight: 600;
+  padding: 9px 20px;
   border-radius: 20px;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, .16);
+  border: 1px solid rgba(255, 255, 255, .22);
+  transition: background-color .18s ease, color .18s ease, transform .18s ease;
 }
+
+/* punto-pokébola a la izquierda de cada pestaña */
+.nav-links a::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #fff 0 49%, var(--rojo-osc) 51% 100%);
+  border: 1px solid rgba(0, 0, 0, .45);
+  transition: transform .3s ease;
+}
+
+.nav-links a:hover {
+  background-color: rgba(255, 255, 255, .3);
+  transform: translateY(-1px);
+}
+
+.nav-links a:hover::before { transform: rotate(180deg); }
 
 .nav-links a.active-tab {
   background-color: white;
-  color: #ef5350;
+  color: var(--rojo);
+  border-color: white;
+  box-shadow: 0 0 20px rgba(255, 255, 255, .35);
 }
 
+.nav-links a.active-tab::before {
+  background: linear-gradient(180deg, var(--rojo) 0 49%, #fff 51% 100%);
+}
+
+/* ---------- Formulario ---------- */
 .form-container {
   max-width: 650px;
   margin: 2rem auto;
   padding: 2rem;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background: linear-gradient(180deg, var(--surface), #151b2b);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--sombra);
+}
+
+.form-container h2 {
+  margin: 0 0 1.4rem;
+  text-align: center;
+  font-size: 1.4rem;
 }
 
 .form-row {
@@ -56,98 +141,317 @@ body {
 }
 
 .form-group label {
-  font-weight: 600;
-  margin-bottom: 4px;
+  font-weight: 500;
+  font-size: .88rem;
+  color: var(--texto-tenue);
+  margin-bottom: 6px;
 }
 
 .form-group input,
 .form-group select {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  padding: 11px 13px;
+  font: inherit;
+  font-size: .95rem;
+  color: var(--texto);
+  background: #0e1322;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  outline: none;
+  transition: border-color .16s ease, box-shadow .16s ease;
+}
+
+.form-group input::placeholder { color: #5d6a8c; }
+
+.form-group input:hover,
+.form-group select:hover { border-color: #3f4d73; }
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: var(--led);
+  box-shadow: 0 0 0 3px rgba(79, 195, 247, .18);
+}
+
+.form-group select {
+  appearance: none;
+  padding-right: 36px;
+  cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, var(--texto-tenue) 50%),
+                    linear-gradient(135deg, var(--texto-tenue) 50%, transparent 50%);
+  background-position: calc(100% - 19px) center, calc(100% - 13px) center;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+.form-group input[type='date']::-webkit-calendar-picker-indicator {
+  filter: invert(.8);
+  cursor: pointer;
 }
 
 .checkbox-group {
-  margin: 15px 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 18px 0;
+  color: var(--texto-tenue);
+  font-size: .92rem;
 }
 
+.checkbox-group input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--rojo);
+  cursor: pointer;
+}
+
+.form-container a {
+  color: var(--led);
+  text-decoration: none;
+  border-bottom: 1px dashed currentColor;
+}
+.form-container a:hover { color: var(--oro); }
+
+/* ---------- Botones ---------- */
 .btn-submit,
 .btn-capturar {
-  background-color: #ef5350;
+  background: linear-gradient(180deg, #f0522b, var(--rojo));
   color: white;
   border: none;
-  padding: 10px 16px;
-  border-radius: 6px;
-  font-weight: bold;
+  padding: 12px 16px;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 700;
   cursor: pointer;
   width: 100%;
+  box-shadow: 0 5px 0 var(--rojo-osc);
+  transition: transform .12s ease, box-shadow .12s ease, filter .18s ease;
 }
 
 .btn-capturar {
-  background-color: #ff9800;
+  background: linear-gradient(180deg, #ffb74d, #ff9800);
+  box-shadow: 0 5px 0 #b26a00;
   margin-top: 10px;
 }
 
-.banner-sesion {
-  background-color: #e3f2fd;
-  padding: 10px 15px;
-  border-radius: 8px;
-  margin-bottom: 15px;
+.btn-submit:hover,
+.btn-capturar:hover { filter: brightness(1.08); }
+
+.btn-submit:active,
+.btn-capturar:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 var(--rojo-osc);
 }
 
+.btn-capturar:active { box-shadow: 0 1px 0 #b26a00; }
+
+.btn-submit:disabled,
+.btn-capturar:disabled {
+  filter: grayscale(1);
+  opacity: .5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+:focus-visible { outline: 2px solid var(--oro); outline-offset: 3px; }
+
+/* ---------- Banner de sesión ---------- */
+.banner-sesion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  max-width: 650px;
+  margin: 1.5rem auto;
+  padding: 12px 18px;
+  background: linear-gradient(180deg, var(--surface-2), var(--surface));
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--led);
+  border-radius: 10px;
+  color: var(--texto-tenue);
+}
+
+.banner-sesion strong { color: var(--texto); }
+
+/* ---------- Tarjeta de resultado del buscador ---------- */
 .tarjeta-pokemon {
-  margin-top: 20px;
-  padding: 20px;
-  border-radius: 12px;
+  max-width: 340px;
+  margin: 20px auto 0;
+  padding: 26px 20px;
+  border-radius: 18px;
   text-align: center;
   border: 2px solid #2a75bb;
-  background-color: #fafafa;
+  background:
+    radial-gradient(150px 110px at 50% 18%, rgba(79, 195, 247, .16), transparent 70%),
+    linear-gradient(180deg, var(--surface), #151b2b);
+  box-shadow: var(--sombra);
 }
 
+.tarjeta-pokemon h3,
+.tarjeta-item h3,
+.tarjeta-pokemon p:first-of-type {
+  text-transform: capitalize;
+}
+
+.tarjeta-pokemon img {
+  width: 130px;
+  height: 130px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 10px 12px rgba(0, 0, 0, .6));
+}
+
+/* ---------- Mochila ---------- */
 .grid-mochila {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 15px;
-  margin-top: 20px;
+  gap: 18px;
+  max-width: 1000px;
+  margin: 24px auto;
+  padding: 0 20px;
 }
 
 .tarjeta-item {
-  background: white;
-  padding: 15px;
-  border-radius: 12px;
-  border: 1px solid #e0e0e0;
+  position: relative;
+  padding: 20px 15px 16px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
   text-align: center;
+  background:
+    radial-gradient(120px 90px at 50% 18%, rgba(79, 195, 247, .1), transparent 70%),
+    linear-gradient(180deg, var(--surface), #151b2b);
+  box-shadow: var(--sombra);
+  overflow: hidden;
+  transition: transform .2s ease, border-color .2s ease;
 }
 
+/* pokébola tenue al fondo */
+.tarjeta-item::after {
+  content: '';
+  position: absolute;
+  right: -44px;
+  bottom: -44px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 11px solid rgba(255, 255, 255, .04);
+  background: linear-gradient(180deg, rgba(227, 53, 13, .09) 0 46%, transparent 46%);
+  pointer-events: none;
+}
+
+.tarjeta-item:hover {
+  transform: translateY(-5px);
+  border-color: #47597f;
+}
+
+.tarjeta-item img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  image-rendering: pixelated;   /* sprites nítidos, no borrosos */
+  filter: drop-shadow(0 8px 10px rgba(0, 0, 0, .6));
+  transition: transform .25s ease;
+}
+
+.tarjeta-item:hover img { transform: scale(1.12) translateY(-4px); }
+
+.tarjeta-item h3 {
+  margin: 8px 0 4px;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.tarjeta-item p {
+  margin: 0;
+  font-size: .85rem;
+  color: var(--texto-tenue);
+}
+
+/* el "#1 de 5": ponle esta clase si quieres el toque pixel */
+.contador-item {
+  font-family: 'Silkscreen', monospace;
+  font-size: .7rem;
+  color: var(--texto-tenue);
+}
+
+/* ---------- Favorito ---------- */
 .tarjeta-favorita {
-  background-color: #fffde7;
-  border: 2px solid #fbc02d;
+  border: 2px solid var(--oro);
+  background:
+    radial-gradient(150px 110px at 50% 15%, rgba(255, 203, 5, .2), transparent 70%),
+    linear-gradient(180deg, #2a2413, #1a1710);
+  animation: brillo-favorito 2.8s ease-in-out infinite;
 }
 
+.tarjeta-favorita img {
+  filter: drop-shadow(0 0 14px rgba(255, 203, 5, .55));
+}
+
+@keyframes brillo-favorito {
+  0%, 100% { box-shadow: 0 0 24px -8px rgba(255, 203, 5, .4), var(--sombra); }
+  50%      { box-shadow: 0 0 44px -4px rgba(255, 203, 5, .65), var(--sombra); }
+}
+
+/* ---------- Panel de botones de la tarjeta ---------- */
 .panel-botones {
   display: flex;
-  justify-content: space-around;
-  margin-top: 10px;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.btn-fav,
+.btn-eliminar {
+  font: inherit;
+  font-size: .82rem;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease, filter .18s ease;
 }
 
 .btn-fav {
-  background: #eee;
-  border: 1px solid #ccc;
-  padding: 4px 8px;
-  border-radius: 4px;
-  cursor: pointer;
+  background: linear-gradient(180deg, var(--surface-2), #192034);
+  color: var(--texto);
+  border: 1px solid var(--line);
+  box-shadow: 0 4px 0 #0f1526;
 }
 
 .btn-fav.fav-activo {
-  background: #fbc02d;
-  font-weight: bold;
+  background: linear-gradient(180deg, var(--oro-claro), var(--oro));
+  color: #12141d;
+  border-color: var(--oro);
+  font-weight: 700;
+  box-shadow: 0 4px 0 var(--oro-osc);
 }
 
 .btn-eliminar {
-  background: #ef5350;
+  background: linear-gradient(180deg, #d63a3a, #b02525);
   color: white;
   border: none;
-  padding: 4px 8px;
-  border-radius: 4px;
-  cursor: pointer;
+  box-shadow: 0 4px 0 #6d1212;
+}
+
+.btn-fav:hover,
+.btn-eliminar:hover { filter: brightness(1.1); }
+
+.btn-fav:active,
+.btn-eliminar:active {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+
+/* ---------- Responsive y accesibilidad ---------- */
+@media (max-width: 560px) {
+  .form-container { margin: 1rem; padding: 1.3rem; }
+  .form-row { flex-direction: column; gap: 0; }
+  .navbar { padding: 1.2rem 1rem 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
 }
